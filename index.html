@@ -1,0 +1,499 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fei Zhang | AI Researcher</title>
+    <meta name="description" content="Ph.D. Candidate at SJTU & Research Intern at Meta FAIR. Focusing on Multimodal Feature Alignment, World Models, and Efficient Autonomous Agents.">
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    
+    <!-- Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        mono: ['JetBrains Mono', 'monospace'],
+                    },
+                    colors: {
+                        primary: '#3B82F6',
+                        secondary: '#8B5CF6',
+                        dark: '#0F172A',
+                    },
+                    animation: {
+                        'float': 'float 6s ease-in-out infinite',
+                        'fade-in': 'fadeIn 0.8s ease-out forwards',
+                    }
+                }
+            }
+        }
+    </script>
+    
+    <style>
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-20px); }
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        body { font-family: 'Inter', sans-serif; }
+        
+        .gradient-text {
+            background: linear-gradient(135deg, #3B82F6 0%, #8B5CF6 50%, #EC4899 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .gradient-bg {
+            background: linear-gradient(135deg, #3B82F6 0%, #8B5CF6 100%);
+        }
+        
+        .card-hover {
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .card-hover:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 20px 40px -10px rgba(59, 130, 246, 0.15);
+        }
+        
+        .nav-blur {
+            backdrop-filter: blur(12px);
+            background: rgba(255, 255, 255, 0.85);
+        }
+        
+        .dark .nav-blur {
+            background: rgba(15, 23, 42, 0.85);
+        }
+        
+        /* 自定义滚动条 */
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #f1f5f9; }
+        ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
+        
+        /* 论文卡片高亮 */
+        .paper-tag {
+            background: linear-gradient(135deg, #3B82F6 0%, #8B5CF6 100%);
+        }
+    </style>
+</head>
+<body class="bg-gray-50 dark:bg-dark text-slate-800 dark:text-slate-200 transition-colors duration-300">
+
+    <!-- 导航栏 -->
+    <nav class="fixed w-full nav-blur border-b border-gray-200 dark:border-slate-700 z-50">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <a href="#" class="font-bold text-xl tracking-tight">
+                    Welcome to <span class="gradient-text">Ferenas World</span>
+                </a>
+                
+                <!-- 桌面菜单 -->
+                <div class="hidden md:flex items-center space-x-8 text-sm font-medium">
+                    <a href="#about" class="hover:text-primary transition">About</a>
+                    <a href="#news" class="hover:text-primary transition">Experience</a>
+                    <a href="#publications" class="hover:text-primary transition">Publications</a>
+                    <!-- <a href="#vision" class="hover:text-primary transition">Vision</a>
+                    <a href="#demos" class="hover:text-primary transition">Demos</a> -->
+                </div>
+                
+                <!-- 移动端菜单按钮 -->
+                <button id="menuBtn" class="md:hidden p-2">
+                    <i class="fas fa-bars text-xl"></i>
+                </button>
+            </div>
+        </div>
+        
+        <!-- 移动端下拉菜单 -->
+        <div id="mobileMenu" class="hidden md:hidden bg-white dark:bg-dark border-b border-gray-200 dark:border-slate-700">
+            <div class="px-4 py-3 space-y-3 text-sm font-medium">
+                <a href="#about" class="block hover:text-primary">About</a>
+                <a href="#news" class="block hover:text-primary">News</a>
+                <a href="#publications" class="block hover:text-primary">Publications</a>
+                <a href="#vision" class="block hover:text-primary">Vision</a>
+                <a href="#demos" class="block hover:text-primary">Demos</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- 主内容 -->
+    <main class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pt-32 pb-20">
+        
+        <!-- Hero Section -->
+        <section id="about" class="mb-24 animate-fade-in">
+            <div class="flex flex-col md:flex-row gap-12 items-center">
+                <div class="w-full md:w-2/5 flex justify-center">
+                    <div class="relative">
+                        <div class="absolute inset-0 gradient-bg rounded-2xl blur-2xl opacity-20 animate-float pointer-events-none"></div>
+                        <div class="relative w-64 h-96 rounded-2xl overflow-hidden shadow-2xl border-4 border-white dark:border-slate-700">
+                            <img src="fig/person.JPG" 
+                            alt="Fei Zhang" 
+                            class="w-full h-full object-cover">
+                        </div>
+                        <div class="flex justify-center gap-5 mt-5 text-2xl text-slate-600 dark:text-slate-400">
+                            <a href="https://github.com/SII-Ferenas" target="_blank" class="hover:text-primary transition"><i class="fab fa-github"></i></a>
+                            <a href="https://scholar.google.com/citations?user=Omrg6UkAAAAJ&hl=zh-CN" target="_blank" class="hover:text-primary transition"><i class="fas fa-graduation-cap"></i></a>
+                            <a href="https://www.linkedin.com/in/ferenas97/" target="_blank" class="hover:text-primary transition"><i class="fab fa-linkedin"></i></a>
+                            <a href="mailto:ferenas@sjtu.edu.cn" target="_blank" class="hover:text-primary transition"><i class="fas fa-envelope"></i></a>
+                        </div>
+                    </div>
+                </div>
+                
+
+
+                <div class="w-full md:w-3/5 text-center md:text-left">
+                    <h1 class="text-3xl md:text-4xl lg:text-5xl font-bold mb-6">
+                        Hi, I'm <span class="gradient-text">Fei Zhang (张菲)</span>
+                    </h1>
+                    
+                    <p class="text-base text-slate-600 dark:text-slate-400 leading-relaxed mb-6 max-w-2xl">
+                        I am now a 3rd-year Ph.D. student in Shanghai Jiao Tong Univeristy & Shanghai Innovation Insitute, and fortunately advised by 
+                        <a href="https://sunarker.github.io" style="color: #0066cc; text-decoration: none;">Jiaochao Yao</a>,
+                        <a href="https://www.tfzhou.com" style="color: #0066cc; text-decoration: none;">Tianfei Zhou (BIT)</a>, 
+                        <a href="https://scholar.google.com/citations?user=oIz_CYEAAAAJ&hl=en" style="color: #0066cc; text-decoration: none;">Pengfei Liu</a>, and 
+                        <a href="https://scholar.google.com/citations?user=pbjw9sMAAAAJ&hl=en" style="color: #0066cc; text-decoration: none;">Ya Zhang</a>. 
+                    </p>
+                    
+                    <p class="text-base text-slate-600 dark:text-slate-400 leading-relaxed mb-6 max-w-2xl">
+                        Before that, I obtained my master's degree from Shanghai Jiao Tong University, fortunately advised by 
+                        <a href="https://scholar.google.com/citations?user=agZ9flIAAAAJ&hl=zh-CN" style="color: #0066cc; text-decoration: none;">Chaochen Gu</a>, 
+                        <a href="https://scholar.google.com/citations?user=1SNUZGKl9KIC&hl=en&oi=ao" style="color: #0066cc; text-decoration: none;">Xinping Guan</a>, and
+                        <a href="https://scholar.google.com/citations?user=fddAbqsAAAAJ&hl=en&oi=ao" style="color: #0066cc; text-decoration: none;">Yuchao Dai</a> (NWPU).
+                        Prior to that, I obtained my bachelor's degree of Automation in Northwestern Polytechnical University, where I had a marvelous time in Xi'an!                      
+                    </p>
+            
+                    <p class="text-base text-slate-600 dark:text-slate-400 leading-relaxed mb-6 max-w-2xl">
+                        My research primarily focuses on multi-modal representation learning and data-efficient learning, generally covering visual fine-grained recognition, multi-modal alignment, and 
+                        visual generation. Now I am also a new beginner of the unified model/world model. I am always open to research discussions and collaborations; please feel free to contact me via email
+                        (ferenas AT sjtu.edu.cn).   
+                    </p>
+                    
+                    <!-- <div class="mt-6 flex justify-center md:justify-start gap-4">
+                        <a href="ferenas@sjtu.edu.cn" class="px-5 py-2.5 gradient-bg text-white font-medium rounded-lg shadow-lg hover:shadow-xl transition transform hover:-translate-y-0.5">
+                            <i class="fas fa-envelope mr-2"></i> Contact
+                        </a>
+                    </div> -->
+                </div>
+            </div>
+     
+        </section>
+
+        <!-- News Section -->
+        <section id="news" class="mb-24">
+            <h2 class="text-2xl font-bold mb-8 flex items-center">
+                <span class="w-8 h-1 gradient-bg rounded mr-3"></span>
+                Experience
+            </h2>
+            <div class="space-y-4">
+                <div class="flex gap-4 items-start p-4 bg-white dark:bg-slate-800 rounded-xl shadow-sm card-hover">
+                    <!-- 左侧：图标 + 时间（上下排列） -->
+                    <div class="flex flex-col items-center gap-1">
+                        <i class="fab fa-meta text-2xl text-blue-600"></i> 
+                        <span class="text-sm font-mono text-slate-800 dark:text-slate-200 whitespace-nowrap">2025.12-2026.4</span>
+                    </div>
+                    <!-- 右侧：描述文字 -->
+                    <p class="text-slate-700 dark:text-slate-300 flex-1">
+                        <strong>Meta Research Scientist Intern</strong>, working on video generation, specifically on RGB-Alpha generation. I worked on an VAE-training-free method to enable an off-the-shelf video 
+                        generative model to glyph Alpha representation ability. Meanwhile, I also took participate in the developement of unified model in our team.
+                    </p>
+                </div>
+                <div class="flex gap-4 items-start p-4 bg-white dark:bg-slate-800 rounded-xl shadow-sm card-hover">
+
+                    <div class="flex flex-col items-center gap-1">
+                        <!-- 第一行：图标 + 文字 水平排列 -->
+                        <div class="flex items-center gap-2">
+                            <img src="fig/qwen-color.svg" alt="Qwen" class="w-8 h-8 object-contain">
+                        </div>
+                        <!-- 第二行：时间 -->
+                        <span class="text-sm font-mono text-slate-800 dark:text-slate-200 whitespace-nowrap">2024.07-2025.12</span>
+                    </div>
+                    <p class="text-slate-700 dark:text-slate-300 flex-1">
+                        <strong>Qwen Research Scientist Intern</strong>, working on developing  <strong>Qwen3-VL</strong>. I specifically worked on helping improving the visual fine-grained
+                        recognition ability, and exploring effective multi-modal fusion mechanims. Besides, I helped improving the Qwen3-VL's ability on the multi-image recognition.  
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Publications Section -->
+        <section id="publications" class="mb-24">
+            <h2 class="text-2xl font-bold mb-8 flex items-center">
+                <span class="w-8 h-1 gradient-bg rounded mr-3"></span>
+                Selected Publications
+            </h2>
+            <div class="space-y-6">
+                
+                <div class="group bg-white dark:bg-slate-800 rounded-xl p-5 shadow-sm card-hover border border-gray-100 dark:border-slate-700">
+                    <div class="flex flex-col sm:flex-row gap-5">
+                        <!-- 左侧缩略图 -->
+                        <div class="w-full sm:w-32 flex-shrink-0">
+                            <div class="aspect-video bg-gradient-to-br from-blue-100 to-purple-100 dark:from-blue-900/30 dark:to-purple-900/30 rounded-lg flex items-center justify-center">
+                                <video src="fig/transtext.mp4" class="w-full h-full object-cover" autoplay muted loop playsinline></video>
+                            </div>
+                        </div>
+                        <!-- 右侧内容 -->
+                        <div class="flex-1">
+                            <h3 class="text-base font-bold mb-1 group-hover:text-primary transition">
+                                TransText: Alpha-as-RGB Representation for Transparent Text Animation
+                            </h3>
+                            <div class="flex flex-wrap gap-2 mb-2">
+                                <a href="https://arxiv.org/pdf/2603.17944" class="text-xs text-primary hover:underline">PDF</a>
+                                <a href="https://github.com/SII-Ferenas/TransText" class="text-xs text-primary hover:underline">Code</a>
+                                <a href="https://sii-ferenas.github.io/TransText/" class="text-xs text-primary hover:underline">Project</a>
+                            </div>
+                            <p class="text-xs text-slate-600 dark:text-slate-400 mb-1">
+                                Fei Zhang, Zijian Zhou, Bohao Tang, Sen He, Hang Li, Zhe Wang, Soubhik Sanyal, Pengfei Liu, Viktar Atliha, Tao Xiang, Frost Xu, Semih Gunel
+                            </p>
+                            <p class="text-xs text-slate-500 dark:text-slate-500 leading-relaxed">
+                                A VAE-training-free I2V RGB-Alpha video generative framework, enabling fine-grained alpha-channel generation with simple spatial concatenation.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="group bg-white dark:bg-slate-800 rounded-xl p-5 shadow-sm card-hover border border-gray-100 dark:border-slate-700">
+                    <div class="flex flex-col sm:flex-row gap-5">
+                        <!-- 左侧缩略图 -->
+                        <div class="w-full sm:w-32 flex-shrink-0">
+                            <div class="aspect-video rounded-lg overflow-hidden bg-white">
+                                <img src="fig/vl.png" alt="Paper thumbnail" class="w-full h-full object-contain">
+                            </div>
+                        </div>
+                        <!-- <div class="w-full sm:w-32 flex-shrink-0">
+                            <div class="aspect-video bg-gradient-to-br from-blue-100 to-purple-100 dark:from-blue-900/30 dark:to-purple-900/30 rounded-lg flex items-center justify-center">
+                                <img src="fig/vl.png" alt="Paper thumbnail" class="w-full h-full object-contain bg-gray-100 dark:bg-slate-700">
+                            </div>
+                        </div> -->
+                        <!-- 右侧内容 -->
+                        <div class="flex-1">
+                            <h3 class="text-base font-bold mb-1 group-hover:text-primary transition">
+                                Qwen3-VL Technical Report
+                            </h3>
+                            <div class="flex flex-wrap gap-2 mb-2">
+                                <a href="https://arxiv.org/pdf/2511.21631" class="text-xs text-primary hover:underline">PDF</a>
+                                <a href="https://github.com/QwenLM/Qwen3-VL" class="text-xs text-primary hover:underline">Code</a>
+                                <a href="https://qwen.ai/blog?id=99f0335c4ad9ff6153e517418d48535ab6d8afef&from=research.latest-advancements-list" class="text-xs text-primary hover:underline">Project</a>
+                            </div>
+                            <p class="text-xs text-slate-600 dark:text-slate-400 mb-1">
+                                Bai Shuai, ... Fei Zhang (Core Contributor), ... et al.
+                            </p>
+                            <p class="text-xs text-slate-500 dark:text-slate-500 leading-relaxed">
+                                The most powerful pure open-sourced vision-language model.  
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="group bg-white dark:bg-slate-800 rounded-xl p-5 shadow-sm card-hover border border-gray-100 dark:border-slate-700">
+                    <div class="flex flex-col sm:flex-row gap-5">
+                        <!-- 左侧缩略图 -->
+                        <div class="w-full sm:w-32 flex-shrink-0">
+                            <div class="aspect-video rounded-lg overflow-hidden bg-white">
+                                <img src="fig/context.png" alt="Paper thumbnail" class="w-full h-full object-contain">
+                            </div>
+                        </div>
+                        <!-- 右侧内容 -->
+                        <div class="flex-1">
+                            <h3 class="text-base font-bold mb-1 group-hover:text-primary transition">
+                                ConText: Driving In-context Learning for Text Removal and Segmentation (ICML'25)
+                            </h3>
+                            <div class="flex flex-wrap gap-2 mb-2">
+                                <a href="https://arxiv.org/pdf/2506.03799?" class="text-xs text-primary hover:underline">PDF</a>
+                                <a href="https://github.com/SII-Ferenas/ConText" class="text-xs text-primary hover:underline">Code</a>
+                            </div>
+                            <p class="text-xs text-slate-600 dark:text-slate-400 mb-1">
+                                Fei Zhang, Pei Zhang, Baosong Yang, Fei Huang, Yanfeng Wang, Ya Zhang
+                            </p>
+                            <p class="text-xs text-slate-500 dark:text-slate-500 leading-relaxed">
+                                The first exploration of establishing a visual in-context learning paradigm for fine-grained text recognition tasks.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="group bg-white dark:bg-slate-800 rounded-xl p-5 shadow-sm card-hover border border-gray-100 dark:border-slate-700">
+                    <div class="flex flex-col sm:flex-row gap-5">
+                        <!-- 左侧缩略图 -->
+                        <div class="w-full sm:w-32 flex-shrink-0">
+                            <div class="aspect-video rounded-lg overflow-hidden bg-white">
+                                <img src="fig/dapt.png" alt="Paper thumbnail" class="w-full h-full object-contain">
+                            </div>
+                        </div>
+                        <!-- 右侧内容 -->
+                        <div class="flex-1">
+                            <h3 class="text-base font-bold mb-1 group-hover:text-primary transition">
+                                Decouple before align: Visual disentanglement enhances prompt tuning (T-PAMI'25)
+                            </h3>
+                            <div class="flex flex-wrap gap-2 mb-2">
+                                <a href="https://arxiv.org/pdf/2508.00395" class="text-xs text-primary hover:underline">PDF</a>
+                                <a href="https://github.com/SII-Ferenas/DAPT" class="text-xs text-primary hover:underline">Code</a>
+                            </div>
+                            <p class="text-xs text-slate-600 dark:text-slate-400 mb-1">
+                                Fei Zhang, Tianfei Zhou, Jiangchao Yao, Ya Zhang, Ivor W. Tsang, Yanfeng Wang
+                            </p>
+                            <p class="text-xs text-slate-500 dark:text-slate-500 leading-relaxed">
+                                Aligning visual and textual representation in a vision-decoupling manner, yielding fine-grained recognition improvement.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="group bg-white dark:bg-slate-800 rounded-xl p-5 shadow-sm card-hover border border-gray-100 dark:border-slate-700">
+                    <div class="flex flex-col sm:flex-row gap-5">
+                        <!-- 左侧缩略图 -->
+                        <div class="w-full sm:w-32 flex-shrink-0">
+                            <div class="aspect-video rounded-lg overflow-hidden bg-white">
+                                <img src="fig/pgnet.png" alt="Paper thumbnail" class="w-full h-full object-contain">
+                            </div>
+                        </div>
+                        <!-- 右侧内容 -->
+                        <div class="flex-1">
+                            <h3 class="text-base font-bold mb-1 group-hover:text-primary transition">
+                                Uncovering Prototypical Knowledge for Weakly Open-Vocabulary Semantic Segmentation (NeurIPS'23)
+                            </h3>
+                            <div class="flex flex-wrap gap-2 mb-2">
+                                <a href="https://proceedings.neurips.cc/paper_files/paper/2023/file/e95eb5206c867be843fbc14bbfe8c10e-Paper-Conference.pdf" class="text-xs text-primary hover:underline">PDF</a>
+                                <a href="https://github.com/SII-Ferenas/PGSeg" class="text-xs text-primary hover:underline">Code</a>
+                            </div>
+                            <p class="text-xs text-slate-600 dark:text-slate-400 mb-1">
+                                Fei Zhang, Tianfei Zhou, Boyang Li, Hao He, Chaofan Ma, Tianjiao Zhang, Jiangchao Yao, Ya Zhang, Yanfeng Wang
+                            </p>
+                            <p class="text-xs text-slate-500 dark:text-slate-500 leading-relaxed">
+                                Introducing prototupical knowledge to help better align visual and textual representation, yielding improved visual dense recognition.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="group bg-white dark:bg-slate-800 rounded-xl p-5 shadow-sm card-hover border border-gray-100 dark:border-slate-700">
+                    <div class="flex flex-col sm:flex-row gap-5">
+                        <!-- 左侧缩略图 -->
+                        <div class="w-full sm:w-32 flex-shrink-0">
+                            <div class="aspect-video rounded-lg overflow-hidden bg-white">
+                                <img src="fig/cav.png" alt="Paper thumbnail" class="w-full h-full object-contain">
+                            </div>
+                        </div>
+                        <!-- 右侧内容 -->
+                        <div class="flex-1">
+                            <h3 class="text-base font-bold mb-1 group-hover:text-primary transition">
+                                Exploiting class activation value for partial-label learning (ICLR'22)
+                            </h3>
+                            <div class="flex flex-wrap gap-2 mb-2">
+                                <a href="https://openreview.net/pdf?id=qqdXHUGec9h" class="text-xs text-primary hover:underline">PDF</a>
+                                <a href="https://github.com/SII-Ferenas/CAVL" class="text-xs text-primary hover:underline">Code</a>
+                            </div>
+                            <p class="text-xs text-slate-600 dark:text-slate-400 mb-1">
+                                Fei Zhang, Lei Feng3, Bo Han2, Tongliang Liu, Gang Niu, Tao Qin, Masashi Sugiyama
+                            </p>
+                            <p class="text-xs text-slate-500 dark:text-slate-500 leading-relaxed">
+                                Introducing visual class activation value to help address weakly supervised learning, implicitly forming accurate clean label through vision knowledge.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="group bg-white dark:bg-slate-800 rounded-xl p-5 shadow-sm card-hover border border-gray-100 dark:border-slate-700">
+                    <div class="flex flex-col sm:flex-row gap-5">
+                        <!-- 左侧缩略图 -->
+                        <div class="w-full sm:w-32 flex-shrink-0">
+                            <div class="aspect-video rounded-lg overflow-hidden bg-white">
+                                <img src="fig/cpn.png" alt="Paper thumbnail" class="w-full h-full object-contain">
+                            </div>
+                        </div>
+                        <!-- 右侧内容 -->
+                        <div class="flex-1">
+                            <h3 class="text-base font-bold mb-1 group-hover:text-primary transition">
+                                Complementary Patch for Weakly Supervised Semantic Segmentation (ICCV'22)
+                            </h3>
+                            <div class="flex flex-wrap gap-2 mb-2">
+                                <a href="https://arxiv.org/abs/2108.03852v1" class="text-xs text-primary hover:underline">PDF</a>
+                                <a href="https://github.com/SII-Ferenas/CPN" class="text-xs text-primary hover:underline">Code</a>
+                            </div>
+                            <p class="text-xs text-slate-600 dark:text-slate-400 mb-1">
+                                Fei Zhang, Chaochen Gu, Chenyue Zhang, Yuchao Dai
+                            </p>
+                            <p class="text-xs text-slate-500 dark:text-slate-500 leading-relaxed">
+                                Introducing complementary visual representation to enhance the activation of dense visual knowledge, explicitly addressing weakly-supervised semantic segmentation.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+
+            </div>
+            
+            <div class="mt-8 text-center">
+                <a href="https://scholar.google.com/citations?user=Omrg6UkAAAAJ&hl=zh-CN" target="_blank" class="inline-flex items-center text-primary font-medium hover:underline">
+                    View All on Google Scholar <i class="fas fa-external-link-alt ml-2 text-xs"></i>
+                </a>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-white dark:bg-slate-900 border-t border-gray-200 dark:border-slate-700 py-12">
+        <div class="max-w-6xl mx-auto px-4 text-center">
+            <div class="flex justify-center gap-6 mb-6">
+                <a href="https://github.com/" target="_blank" class="text-slate-500 hover:text-primary transition text-2xl"><i class="fab fa-github"></i></a>
+                <a href="https://scholar.google.com/" target="_blank" class="text-slate-500 hover:text-primary transition text-2xl"><i class="fas fa-graduation-cap"></i></a>
+                <a href="https://linkedin.com/" target="_blank" class="text-slate-500 hover:text-primary transition text-2xl"><i class="fab fa-linkedin"></i></a>
+                <a href="mailto:your.email@example.com" class="text-slate-500 hover:text-primary transition text-2xl"><i class="fas fa-envelope"></i></a>
+            </div>
+            <p class="text-slate-500 dark:text-slate-400 text-sm">
+                &copy; 2026 Fei Zhang. Built with Tailwind CSS.
+            </p>
+            <p class="text-slate-400 dark:text-slate-500 text-xs mt-2 font-mono">
+                Last updated: May 2026
+            </p>
+        </div>
+    </footer>
+
+    <!-- 移动端菜单脚本 -->
+    <script>
+        const menuBtn = document.getElementById('menuBtn');
+        const mobileMenu = document.getElementById('mobileMenu');
+        
+        menuBtn.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+        });
+        
+        // 点击链接后关闭菜单
+        mobileMenu.querySelectorAll('a').forEach(link => {
+            link.addEventListener('click', () => {
+                mobileMenu.classList.add('hidden');
+            });
+        });
+        
+        // 平滑滚动
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+            });
+        });
+    </script>
+</body>
+</html>
+
